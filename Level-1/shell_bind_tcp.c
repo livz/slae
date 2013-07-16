@@ -1,4 +1,14 @@
 /*
+ * Shell Bind TCP
+ * Author Liviu I. 
+ *
+ * License http://creativecommons.org/licenses/by-sa/3.0/
+ * Legitimate use and research only
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE;
+ *
+ *
  *  Listen for incoming connections and spawns a shell
  *  
  *  $ gcc -Wall shell_bind_tcp.c -o shell_bind_tcp

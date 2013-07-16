@@ -1,7 +1,13 @@
 ; SLAE - Assignment 1
 ;
 ; Shell Bind TCP
+; Author Liviu I. 
 ;
+; License http://creativecommons.org/licenses/by-sa/3.0/
+; Legitimate use and research only
+; This program is distributed in the hope that it will be useful,
+; but WITHOUT ANY WARRANTY; without even the implied warranty of
+; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE;
 
 global _start			
 
