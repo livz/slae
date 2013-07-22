@@ -1,9 +1,6 @@
 /*
-Egghunter shellcode tester
--------------------------------
   
-  
-Disassembly of section .text:
+    Shellcode tester
 
 */
 
