@@ -39,18 +39,18 @@ e.g:
 
 * Switch between push and (mov + add + push)  
 e.g:  
-|       push      |   mov + add + push  |
-|-----------------| ------------------- |
-| push 0x23456789 | mov esi, 0x12345678 |
-|                 | add esi, 0x11111111 |
-|                 | push esi            |
+|       push      |   mov + add + push  | 
+|-----------------| ------------------- | 
+| push 0x23456789 | mov esi, 0x12345678 | 
+|                 | add esi, 0x11111111 | 
+|                 | push esi            | 
 
 
 * Change between push and directly accessing the stack  
 e.g.:  
-|       push      |         stack access          |
-| --------------- | ----------------------------- |
-| push 0x64777373 | mov dword [esp-4], 0x64777373 |
+|       push      |         stack access          | 
+| --------------- | ----------------------------- | 
+| push 0x64777373 | mov dword [esp-4], 0x64777373 | 
 |                 |          sub esp, 4           | 
 
 
