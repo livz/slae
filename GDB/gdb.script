@@ -1,0 +1,209 @@
+# Inspired by the cool gdbinit script at:
+# https://github.com/gdbinit/Gdbinit/blob/master/gdbinit
+
+# Features:
+# - nice output of registers, stack, and next instructions
+# - change register color if value was modified
+# - modified gdb prompt
+# - keep track of stops
+# - short, easily adaptable
+
+# Set disassembly flavor
+set disassembly-flavor intel
+
+# Output long lines
+set width 0
+
+# Don't pause output
+set height 0
+
+# Color codes
+set $BLACK = 0
+set $RED = 1
+set $GREEN = 2
+set $YELLOW = 3
+set $BLUE = 4
+set $MAGENTA = 5
+set $CYAN = 6
+set $WHITE = 7
+
+set $COLOR_REGNAME = $YELLOW
+set $COLOR_REGVAL = $BLACK
+set $COLOR_REGVAL_MODIFIED = $RED
+set $COLOR_SEPARATOR = $BLUE
+
+define color
+    if $arg0 == $BLACK
+        echo \033[30m
+    end
+
+    if $arg0 == $RED
+        echo \033[31m
+    end
+
+    if $arg0 == $GREEN
+        echo \033[32m
+    end
+
+    if $arg0 == $YELLOW
+        echo \033[33m
+    end
+    if $arg0 == $BLUE
+        echo \033[34m
+    end
+
+    if $arg0 == $MAGENTA
+        echo \033[35m
+    end
+
+    if $arg0 == $CYAN
+        echo \033[36m
+    end
+
+    if $arg0 == $WHITE
+        echo \033[37m
+    end
+end
+
+define color_reset
+    echo \033[0m
+end
+
+define color_bold
+    echo \033[1m
+end
+
+define color_underline
+    echo \033[4m
+end
+
+# Index of history commands
+set $hist_idx = 0 
+
+# Set prompt
+set prompt \033[32m(gdb) \033[0m
+
+# Initial register values. Used for comparisons
+set $old_eax = 0
+set $old_ebx = 0
+set $old_ecx = 0
+set $old_edx = 0
+set $old_esi = 0
+set $old_edi = 0
+
+# Hook when execution stops
+define hook-stop
+    color $MAGENTA
+    printf "(%u)", $hist_idx
+    color $COLOR_SEPARATOR
+    printf "---------------------------------------------------"
+    color_bold
+    printf "[regs]\n"
+    color_reset
+
+    # EAX
+    color $COLOR_REGNAME
+    printf "EAX:"
+    if ($eax != $old_eax)
+        color $COLOR_REGVAL_MODIFIED
+    else
+        color $COLOR_REGVAL
+    end
+    printf " 0x%08X ", $eax
+
+    # EBX
+    color $COLOR_REGNAME
+    printf "EBX:"
+    if ($ebx != $old_ebx)
+        color $COLOR_REGVAL_MODIFIED
+    else
+        color $COLOR_REGVAL
+    end
+    printf " 0x%08X ", $ebx
+
+    # ECX
+    color $COLOR_REGNAME
+    printf "ECX:"
+    if ($ecx != $old_ecx)
+        color $COLOR_REGVAL_MODIFIED
+    else
+        color $COLOR_REGVAL
+    end
+    printf " 0x%08X ", $ecx
+
+    # EDX
+    color $COLOR_REGNAME
+    printf "EDX:"
+    if ($edx != $old_edx)
+        color $COLOR_REGVAL_MODIFIED
+    else
+        color $COLOR_REGVAL
+    end
+    printf " 0x%08X ", $edx
+
+    printf "\n"
+    # ESI
+    color $COLOR_REGNAME
+    printf "ESI:"
+    if ($esi != $old_esi)
+        color $COLOR_REGVAL_MODIFIED
+    else
+        color $COLOR_REGVAL
+    end
+    printf " 0x%08X ", $esi
+
+    # EDI
+    color $COLOR_REGNAME
+    printf "EDI:"
+    if ($edi != $old_edi)
+        color $COLOR_REGVAL_MODIFIED
+    else
+        color $COLOR_REGVAL
+    end
+    printf " 0x%08X ", $edi
+
+    # Save registers
+    set $old_eax = $eax
+    set $old_ebx = $ebx
+    set $old_ecx = $ecx
+    set $old_edx = $edx
+    set $old_esi = $esi
+    set $old_edi = $edi
+
+    # EBP
+    color $COLOR_REGNAME
+    printf "EBP:"
+    color $COLOR_REGVAL
+    printf " 0x%08X ", $ebp
+
+    # EIP
+    color $COLOR_REGNAME
+    printf "EIP:"
+    color $COLOR_REGVAL
+    printf " 0x%08X ", $eip
+
+    color_reset
+    printf "\n"
+    print $eflags
+
+    color $COLOR_SEPARATOR
+    printf "-------------------------------------------------------"
+    color_bold
+    printf "[stack]\n"
+    color_reset
+
+    color $WHITE
+    printf "ESP: 0x%08X ", $esp
+    color_reset
+    printf "\n"
+    x/32xb $esp
+
+    color $COLOR_SEPARATOR
+    printf "------------------------------------------------------"
+    color_bold
+    printf "[code]\n"
+    color_reset
+    x /7i $eip
+
+    set $hist_idx = $hist_idx + 1
+end 
