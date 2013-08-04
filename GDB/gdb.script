@@ -2,7 +2,7 @@
 # https://github.com/gdbinit/Gdbinit/blob/master/gdbinit
 
 # Features:
-# - nice output of registers, stack, and next instructions
+# - nice output of registers, flags, stack, and next instructions
 # - change register color if value was modified
 # - modified gdb prompt
 # - keep track of stops
