@@ -37,7 +37,7 @@ e.g:
 
     
 
-* Switch between push and (mov + add + push):
+* Switch between push and (mov + add + push)  
 e.g:
 |       push      |   mov + add + push  |
 |-----------------| ------------------- |
@@ -46,7 +46,7 @@ e.g:
 |                 | push esi            |
 
 
-* Change between push and directly accessing the stack
+* Change between push and directly accessing the stack  
 e.g.:
 |       push      |         stack access          |
 | --------------- | ----------------------------- |
